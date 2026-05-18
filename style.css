@@ -1,0 +1,219 @@
+/* Configuración general y tipografía cozy */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@600;800&family=VT323&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f5e6; /* Fondo crema cálido, muy típico de los menús del juego */
+    font-family: 'Quicksand', sans-serif; /* Volvemos a una fuente redondeada y amigable */
+    transition: background 0.5s ease;
+}
+
+/* Contenedor principal: La mítica ventana de menú de Animal Crossing */
+.player-container {
+    width: 290px;
+    padding: 24px;
+    border-radius: 32px; /* Curvas muy pronunciadas y amables */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease;
+    
+    /* El truco del marco de Animal Crossing: borde marrón chocolate y sombra suave */
+    border: 4px solid #5c4a3c; 
+    box-shadow: 0 8px 0px rgba(92, 74, 60, 0.15);
+}
+
+/* --- ESTÉTICAS / TEMAS (Paleta pastel y orgánica del juego) --- */
+.theme-song1 {
+    background-color: #e3eedb; /* Verde hoja/aeródromo de Dodo Airlines */
+}
+.theme-song2 {
+    background-color: #fbf0cf; /* El clásico tono canela/miel de los menús */
+}
+.theme-song3 {
+    background-color: #dfecf1; /* Azul cielo/mar calmado */
+}
+
+/* Burbuja de texto para el título (Como cuando habla un vecino) */
+.player-header {
+    background-color: #ffffff;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    border-radius: 20px; /* Bordes redondeados de burbuja */
+    border: 3px solid #5c4a3c;
+    width: 85%;
+    text-align: center;
+    box-shadow: 0 4px 0px rgba(92, 74, 60, 0.1);
+}
+
+.song-title {
+    font-size: 16px;
+    font-weight: 800; /* Letra gordita e infantil */
+    color: #5c4a3c;   /* Texto marrón, nunca negro puro */
+}
+
+/* Contenedor de la carátula con esquinas redondeadas suavizadas */
+.album-art-container {
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border-radius: 24px;
+    border: 4px solid #ffffff; /* Marco blanco grueso alrededor de la foto */
+    box-shadow: 0 6px 12px rgba(92, 74, 60, 0.15);
+}
+
+.album-art {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Barra de progreso estilo "baya" o fruta */
+.progress-section {
+    width: 90%;
+    margin-bottom: 24px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 14px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    border: 3px solid #5c4a3c;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: visible; /* Para que el emoji del slider pueda sobresalir */
+}
+
+.progress-fill {
+    width: 35%; 
+    height: 100%;
+    background-color: #a4c639; /* Verde manzana brillante */
+    border-radius: 50px 0 0 50px;
+}
+
+/* Icono del slider (La hoja de Tom Nook, el cigarro o lo que toque) */
+.heart-slider {
+    position: absolute;
+    left: 32%;
+    font-size: 22px; /* Un pelín más grande para que parezca un objeto del inventario */
+    cursor: pointer;
+    user-select: none;
+    transform: translateY(-1px);
+    filter: drop-shadow(0px 2px 0px rgba(92, 74, 60, 0.2));
+}
+
+/* Controles inferiores */
+.player-controls {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botones como los de la interfaz del inventario del juego */
+.control-btn {
+    background: #ffffff;
+    border: 3px solid #5c4a3c;
+    padding: 6px 14px;
+    border-radius: 16px; /* Botones muy redondeados */
+    cursor: pointer;
+    font-size: 16px;
+    color: #5c4a3c;
+    box-shadow: 0 4px 0px #5c4a3c; /* Sombra sólida marrón que da volumen de botón acolchado */
+    position: relative;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.control-btn:hover {
+    background: #fffdf3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0px #5c4a3c;
+}
+
+/* Al pulsar, simula el "pop" del juego bajando la sombra */
+.control-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0px 0px #5c4a3c;
+}
+
+.playback-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-play {
+    background-color: #ffffff;
+}
+
+/* Sección de los tres corazones */
+.favorite-hearts {
+    display: flex;
+    gap: 4px;
+    font-size: 16px;
+    filter: drop-shadow(0px 2px 0px rgba(92, 74, 60, 0.2));
+}
+
+
+
+/* Contenedor de los corazones */
+.favorite-hearts {
+    display: flex;
+    gap: 12px; /* Un poco más de espacio entre ellos */
+    align-items: center;
+    height: 20px;
+}
+
+/* El corazón estilo Animal Crossing con CSS puro */
+.ac-heart {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    background-color: #f16c5d; /* El mítico rojo coral pastel del juego */
+    border: 2.5px solid #5c4a3c; /* Borde marrón chocolate a juego con la interfaz */
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+    box-shadow: 2px 2px 0px rgba(92, 74, 60, 0.15); /* Sombra plana suave */
+    margin-top: -6px; /* Ajuste de alineación por la rotación */
+}
+
+.ac-heart::before,
+.ac-heart::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: #f16c5d;
+    border: 2.5px solid #5c4a3c;
+    border-radius: 50%; /* Redondea las orejas del corazón */
+}
+
+/* Oreja izquierda */
+.ac-heart::before {
+    bottom: 0px;
+    left: -8.5px;
+    border-top: 2.5px solid #5c4a3c;
+    border-left: 2.5px solid #5c4a3c;
+    border-right: none;
+    border-bottom: none;
+}
+
+/* Oreja derecha */
+.ac-heart::after {
+    top: -8.5px;
+    right: 0px;
+    border-top: 2.5px solid #5c4a3c;
+    border-right: 2.5px solid #5c4a3c;
+    border-left: none;
+    border-bottom: none;
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Music</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="player-container theme-song1" id="playerCard">
+        
+        <div class="player-header">
+            <span class="song-title" id="songTitle">Crazy Rap - Afroman</span>
+        </div>
+
+        <div class="album-art-container">
+            <img src="assets/imagen1.jpg" alt="Carátula" class="album-art" id="albumArt">
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="heart-slider" id="sliderIcon">🍁</div>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            
+            <div class="playback-buttons">
+                <button class="control-btn" id="btnPrev">⏮</button>
+                <button class="control-btn btn-play" id="btnPlay">⏸</button>
+                <button class="control-btn" id="cmdNext">⏭</button>
+            </div>
+
+            <div class="favorite-hearts" id="heartContainer">
+                <div class="ac-heart"></div>
+                <div class="ac-heart"></div>
+                <div class="ac-heart"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <audio id="audioPlayer" src=""></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
