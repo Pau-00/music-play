@@ -187,7 +187,7 @@ body {
 /* La imagen interna del SVG (limpieza total por si arrastra bordes del navegador) */
 .menu-svg-img {
     display: block;
-    height: 26px; /* Ajusta el tamaño de las letras del menú a tu gusto */
+    height: 24px; /* Ajusta el tamaño de las letras del menú a tu gusto */
     width: auto;
     border: none !important;
     background: transparent !important;
