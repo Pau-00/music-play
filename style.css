@@ -120,18 +120,26 @@ body {
 
 /* Botones como los de la interfaz del inventario del juego */
 .control-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;  /* Le damos un tamaño fijo y cuadrado para que queden simétricos */
+    height: 50px; 
     background: #ffffff;
     border: 3px solid #5c4a3c;
-    padding: 6px 14px;
-    border-radius: 16px; /* Botones muy redondeados */
+    border-radius: 18px; /* Manteniendo el look redondeado del juego */
     cursor: pointer;
-    font-size: 16px;
-    color: #5c4a3c;
-    box-shadow: 0 4px 0px #5c4a3c; /* Sombra sólida marrón que da volumen de botón acolchado */
+    box-shadow: 0 4px 0px #5c4a3c;
     position: relative;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700;
+    padding: 0; /* Quitamos el padding para que no descuadre el SVG */
     transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* Tamaño de los iconos SVG dentro del botón */
+.btn-icon {
+    width: 20px;  /* Ajusta este tamaño para que el icono no sature el botón */
+    height: 20px;
+    pointer-events: none; /* Evita que el ratón haga click en la imagen en vez de en el botón */
 }
 
 .control-btn:hover {
@@ -155,65 +163,113 @@ body {
     background-color: #ffffff;
 }
 
-/* Sección de los tres corazones */
-.favorite-hearts {
+/* CONTENEDOR DEL MENÚ */
+.menu-container {
     display: flex;
-    gap: 4px;
-    font-size: 16px;
-    filter: drop-shadow(0px 2px 0px rgba(92, 74, 60, 0.2));
-}
-
-
-
-/* Contenedor de los corazones */
-.favorite-hearts {
-    display: flex;
-    gap: 12px; /* Un poco más de espacio entre ellos */
     align-items: center;
-    height: 20px;
 }
 
-/* El corazón estilo Animal Crossing con CSS puro */
-.ac-heart {
+/* El enlace (link): quitamos líneas, fondos o cajas */
+.menu-link {
+    display: inline-block;
+    text-decoration: none;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    cursor: pointer;
+    
+    /* Aplicamos la animación de la sombra al propio texto/trazo del SVG */
+    transition: transform 0.1s ease, filter 0.1s ease;
+    filter: drop-shadow(0px 4px 0px #5c4a3c);
     position: relative;
-    width: 14px;
-    height: 14px;
-    background-color: #f16c5d; /* El mítico rojo coral pastel del juego */
-    border: 2.5px solid #5c4a3c; /* Borde marrón chocolate a juego con la interfaz */
-    border-top: none;
-    border-left: none;
-    transform: rotate(45deg);
-    box-shadow: 2px 2px 0px rgba(92, 74, 60, 0.15); /* Sombra plana suave */
-    margin-top: -6px; /* Ajuste de alineación por la rotación */
 }
 
-.ac-heart::before,
-.ac-heart::after {
-    content: "";
+/* La imagen interna del SVG (limpieza total por si arrastra bordes del navegador) */
+.menu-svg-img {
+    display: block;
+    height: 26px; /* Ajusta el tamaño de las letras del menú a tu gusto */
+    width: auto;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* --- ANIMACIONES DE HOVER AL LINK --- */
+
+/* Al pasar el ratón: el texto flota un poquito hacia arriba */
+.menu-link:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0px 6px 0px #5c4a3c);
+}
+
+/* Al hacer click: se hunde hacia abajo simétrico a tus otros botones */
+.menu-link:active {
+    transform: translateY(4px);
+    filter: drop-shadow(0px 0px 0px #5c4a3c);
+}
+
+/* Contenedor que agrupa Sidebar + Tarjeta */
+.main-app-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* El Sidebar (Menú oculto) */
+.menu-sidebar {
     position: absolute;
-    width: 14px;
-    height: 14px;
-    background-color: #f16c5d;
-    border: 2.5px solid #5c4a3c;
-    border-radius: 50%; /* Redondea las orejas del corazón */
+    left: 0; /* Se alinea a la izquierda de la tarjeta */
+    z-index: 0; /* Por debajo de la tarjeta */
+    width: 200px;
+    height: 80%; /* Un poco más bajo que la tarjeta para que se vea orgánico */
+    background-color: #ffffff;
+    border: 4px solid #5c4a3c;
+    border-right: none; /* Quitamos el borde derecho para que parezca pegado */
+    border-radius: 24px 0 0 24px; /* Redondeado solo a la izquierda */
+    padding: 20px;
+    box-shadow: 0 8px 0px rgba(92, 74, 60, 0.1);
+    
+    /* Animación de entrada/salida */
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateX(0); /* Empieza escondido justo detrás de la tarjeta */
 }
 
-/* Oreja izquierda */
-.ac-heart::before {
-    bottom: 0px;
-    left: -8.5px;
-    border-top: 2.5px solid #5c4a3c;
-    border-left: 2.5px solid #5c4a3c;
-    border-right: none;
-    border-bottom: none;
+/* Cuando el menú está activo */
+.menu-sidebar.active {
+    transform: translateX(-190px); /* Se desplaza hacia la izquierda */
 }
 
-/* Oreja derecha */
-.ac-heart::after {
-    top: -8.5px;
-    right: 0px;
-    border-top: 2.5px solid #5c4a3c;
-    border-right: 2.5px solid #5c4a3c;
-    border-left: none;
-    border-bottom: none;
+/* Estilos internos de la lista (Animal Crossing Style) */
+.sidebar-title {
+    font-size: 16px;
+    color: #5c4a3c;
+    margin-bottom: 15px;
+    border-bottom: 2px dashed #5c4a3c;
+    padding-bottom: 5px;
+}
+
+.song-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.song-list li {
+    font-size: 14px;
+    color: #5c4a3c;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.song-list li:hover {
+    color: #a4c639; /* Verde manzana al pasar el ratón */
+}
+
+/* Asegúrate de que la tarjeta esté POR ENCIMA */
+.player-container {
+    position: relative;
+    z-index: 1; /* Esto garantiza que esté al frente */
+    /* Mantén tus otros estilos del player-container */
 }

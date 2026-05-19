@@ -1,28 +1,25 @@
-// 1. Datos de las canciones (con iconos de slider y corazones personalizados)
+// 1. Datos de las canciones (Limpios de la propiedad "corazones" para que sean fijos de CSS)
 const canciones = [
     {
         titulo: "Crazy Rap - Afroman",
         imagen: "assets/imagen1.jpg",
         temaCss: "theme-song1",
         archivo: "assets/cancion1.mp3",
-        iconoSlider: "🚬",
-        corazones: "<span>💚</span><span>💚</span><span>💚</span>"
+        iconoSlider: "🚬"
     },
     {
         titulo: "Mis Amigos - Los rivera Destino",
         imagen: "assets/imagen2.jpg",
         temaCss: "theme-song2",
         archivo: "assets/cancion2.mp3",
-        iconoSlider: "🚬", // Cambia la hoja por el cigarro
-        corazones: "<span>💛</span><span>💛</span><span>💛</span>" // Corazones amarillos/rubios a juego
+        iconoSlider: "🚬"
     },
     {
         titulo: "Dios me tiró un ducados rubio - Mala Gestión",
         imagen: "assets/imagen3.jpg",
         temaCss: "theme-song3",
         archivo: "assets/cancion3.mp3",
-        iconoSlider: "🚬",
-        corazones: "<span>🤍</span><span>🤍</span><span>🤍</span>"
+        iconoSlider: "🚬"
     }
 ];
 
@@ -30,7 +27,6 @@ let indiceActual = 0;
 let estaReproduciendo = false;
 
 // 2. Cargar el efecto de sonido de los botones
-// (Asegúrate de que el nombre coincida exactamente con tu archivo en assets)
 const sonidoBoton = new Audio("assets/click.mp3");
 
 // Elementos del HTML
@@ -39,19 +35,23 @@ const tituloCancion = document.getElementById("songTitle");
 const imagenCaratula = document.getElementById("albumArt");
 const reproductorAudio = document.getElementById("audioPlayer");
 const iconoSlider = document.getElementById("sliderIcon");
-const contenedorCorazones = document.getElementById("heartContainer");
 
 const btnPlay = document.getElementById("btnPlay");
+const playIcon = document.getElementById("playIcon"); // Imagen SVG interna del botón Play
 const btnPrev = document.getElementById("btnPrev");
 const btnNext = document.getElementById("cmdNext");
 
-// Función para reproducir el efecto de sonido del botón
+// Nuevos elementos para el menú desplegable trasero
+const btnMenu = document.getElementById("btnMenu");
+const menuSlider = document.getElementById("menuSlider");
+
+// Función para reproducir el efecto de sonido de interacción
 function reproducirEfectoBoton() {
-    sonidoBoton.currentTime = 0; // Reinicia el sonido por si se pulsa muy rápido seguido
+    sonidoBoton.currentTime = 0; // Reinicia el sonido por si se pulsa muy rápido
     sonidoBoton.play().catch(error => console.log("Efecto de sonido bloqueado temporalmente por el navegador."));
 }
 
-// Función mágica para cambiar todo el contenido y la estética
+// Función para cambiar el contenido de la canción y la estética de la tarjeta
 function cargarCancion(index) {
     const cancion = canciones[index];
     
@@ -60,61 +60,73 @@ function cargarCancion(index) {
     reproductorAudio.src = cancion.archivo;
     tarjetaReproductor.className = "player-container " + cancion.temaCss;
     
-    // Aquí cambiamos los iconos dinámicamente
+    // Cambia el icono del slider (hoja, cigarro...), los corazones se quedan fijos por CSS
     if (iconoSlider) iconoSlider.textContent = cancion.iconoSlider; 
-    if (contenedorCorazones) contenedorCorazones.innerHTML = cancion.corazones;
 }
 
-// Control de Play / Pausa
+// Control de Play / Pausa cambiando las imágenes SVG
 function controlarPlay() {
+    reproducirEfectoBoton();
+
     if (estaReproduciendo) {
         reproductorAudio.pause();
-        btnPlay.textContent = "▶"; 
+        if (playIcon) playIcon.src = "assets/play.svg"; // Cambia al SVG de Play
         estaReproduciendo = false;
     } else {
         reproductorAudio.play()
             .then(() => {
-                btnPlay.textContent = "⏸";
+                if (playIcon) playIcon.src = "assets/pause.svg"; // Cambia al SVG de Pausa
                 estaReproduciendo = true;
             })
-            .catch(() => console.log("Interactúa con la página para reproducir."));
+            .catch(() => console.log("Interactúa con la página para poder reproducir audio."));
     }
 }
 
-// Botones de navegación
+// Navegación: Canción Siguiente
 function siguienteCancion() {
-    reproducirEfectoBoton(); // Sonido al pulsar
+    reproducirEfectoBoton();
     
     indiceActual = (indiceActual + 1) % canciones.length; 
     cargarCancion(indiceActual);
-    reproductorAudio.play().then(() => { btnPlay.textContent = "⏸"; estaReproduciendo = true; }).catch(() => {});
+    
+    reproductorAudio.play()
+        .then(() => { 
+            if (playIcon) playIcon.src = "assets/pause.svg"; 
+            estaReproduciendo = true; 
+        })
+        .catch(() => {});
 }
 
+// Navegación: Canción Anterior
 function anteriorCancion() {
-    reproducirEfectoBoton(); // Sonido al pulsar
+    reproducirEfectoBoton();
     
     indiceActual = (indiceActual - 1 + canciones.length) % canciones.length;
     cargarCancion(indiceActual);
-    reproductorAudio.play().then(() => { btnPlay.textContent = "⏸"; estaReproduciendo = true; }).catch(() => {});
+    
+    reproductorAudio.play()
+        .then(() => { 
+            if (playIcon) playIcon.src = "assets/pause.svg"; 
+            estaReproduciendo = true; 
+        })
+        .catch(() => {});
 }
 
-function cargarCancion(index) {
-    const cancion = canciones[index];
-    
-    tituloCancion.textContent = cancion.titulo;
-    imagenCaratula.src = cancion.imagen;
-    reproductorAudio.src = cancion.archivo;
-    tarjetaReproductor.className = "player-container " + cancion.temaCss;
-    
-    // Cambia el icono del slider (hoja, cigarro...), pero deja los corazones tranquilos
-    if (iconoSlider) iconoSlider.textContent = cancion.iconoSlider; 
-}
-
-
-// Eventos de los botones
+// Eventos de los botones de la interfaz
 btnPlay.addEventListener("click", controlarPlay);
 btnNext.addEventListener("click", siguienteCancion);
 btnPrev.addEventListener("click", anteriorCancion);
 
-// Arrancar el reproductor con la primera canción
+// Evento para abrir/cerrar el menú trasero al pulsar en el texto SVG
+if (btnMenu && menuSlider) {
+    btnMenu.addEventListener("click", (e) => {
+        e.preventDefault(); // Evita el comportamiento de salto del enlace <a>
+        reproducirEfectoBoton(); // Mantiene tu feedback de audio
+        
+        // Añade o quita la clase que activa la animación CSS
+        menuSlider.classList.toggle("active");
+    });
+}
+
+// Inicializar el reproductor con la primera canción de la lista al cargar la página
 cargarCancion(indiceActual);
