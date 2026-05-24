@@ -8,49 +8,56 @@
 </head>
 <body>
 
-    <div class="player-container theme-song1" id="playerCard">
-        
-        <div class="player-header">
-            <span class="song-title" id="songTitle">Crazy Rap - Afroman</span>
-        </div>
+    <div class="wrapper-reproductor">
 
-        <div class="album-art-container">
-            <img src="assets/imagen1.jpg" alt="Carátula" class="album-art" id="albumArt">
-        </div>
-
-        <div class="progress-section">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-                <div class="heart-slider" id="sliderIcon">🍁</div>
+        <div id="menuSlider" class="menu-sidebar-trasero">
+            <div class="sidebar-header-bubble">
+                <span class="sidebar-title">Listas disponibles</span>
             </div>
+            <ul class="playlist-selector">
+                <li class="playlist-option active" data-list="porrito">¿Un porrito?</li>
+                <li class="playlist-option" data-list="rave">Nos vamos de rave</li>
+            </ul>
         </div>
 
-        <div class="player-controls">
+        <div class="player-container theme-song1" id="playerCard">
             
-            <div class="menu-container">
-                <a href="#" class="menu-link" id="btnMenu">
-                    <img src="assets/menu.svg" alt="Menú" class="menu-svg-img">
-                </a>
+            <div class="player-header">
+                <span class="song-title" id="songTitle">Crazy Rap - Afroman</span>
             </div>
 
-            <div class="playback-buttons">
-                <button class="control-btn" id="btnPrev">
-                    <img src="assets/prev.svg" alt="Anterior" class="btn-icon">
-                </button>
-                <button class="control-btn btn-play" id="btnPlay">
-                    <img src="assets/play.svg" alt="Play" class="btn-icon" id="playIcon">
-                </button>
-                <button class="control-btn" id="cmdNext">
-                    <img src="assets/next.svg" alt="Siguiente" class="btn-icon">
-                </button>
+            <div class="album-art-container">
+                <img src="assets/imagen1.jpg" alt="Carátula" class="album-art" id="albumArt">
             </div>
 
-</div>
-        </div>
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="heart-slider" id="sliderIcon">🚬</div>
+                </div>
+            </div>
 
-    </div>
+            <div class="player-controls">
+                
+                <div class="menu-container">
+                    <a href="#" class="menu-link" id="btnMenu">
+                        <img src="assets/menu.svg" alt="Menú" class="menu-svg-img">
+                    </a>
+                </div>
 
-    <audio id="audioPlayer" src=""></audio>
+                <div class="playback-buttons">
+                    <button class="control-btn" id="btnPrev">
+                        <img src="assets/prev.svg" alt="Anterior" class="btn-icon">
+                    </button>
+                    <button class="control-btn btn-play" id="btnPlay">
+                        <img src="assets/play.svg" alt="Play" class="btn-icon" id="playIcon">
+                    </button>
+                    <button class="control-btn" id="cmdNext">
+                        <img src="assets/next.svg" alt="Siguiente" class="btn-icon">
+                    </button>
+                </div>
+
+            </div> </div> </div> <audio id="audioPlayer" src=""></audio>
 
     <script src="script.js"></script>
 </body>

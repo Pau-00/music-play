@@ -1,5 +1,5 @@
-// 1. Datos de las canciones (Limpios de la propiedad "corazones" para que sean fijos de CSS)
-const canciones = [
+// 1. Definición de las dos Listas de Música Independientes
+const listaPorrito = [
     {
         titulo: "Crazy Rap - Afroman",
         imagen: "assets/imagen1.jpg",
@@ -23,110 +23,183 @@ const canciones = [
     }
 ];
 
+const listaRave = [
+    {
+        titulo: "Sprint - Mr. Polska",
+        imagen: "assets/animacion-rave1.gif", 
+        temaCss: "theme-rave1",
+        archivo: "assets/rave1.mp3",
+        iconoSlider: "⚡"
+    },
+    {
+        titulo: "Слэм бит - Hotzzen",
+        imagen: "assets/animacion-rave2.gif",
+        temaCss: "theme-rave2",
+        archivo: "assets/rave2.mp3",
+        iconoSlider: "⚡"
+    },
+    {
+        titulo: "It's Crazy It's Party - Käärijä",
+        imagen: "assets/animacion-rave3.gif",
+        temaCss: "theme-rave3",
+        archivo: "assets/rave3.mp3",
+        iconoSlider: "⚡"
+    }
+];
+
+// Estado del reproductor apuntando por defecto a la lista chill
+let cancionesActivas = listaPorrito;
 let indiceActual = 0;
 let estaReproduciendo = false;
+const tiempoObjetivo = 30; // Tiempo en segundos para que la barra llegue al 100%
 
-// 2. Cargar el efecto de sonido de los botones
+// 2. Efecto de sonido del sistema
 const sonidoBoton = new Audio("assets/click.mp3");
 
-// Elementos del HTML
+// Selectores del DOM
 const tarjetaReproductor = document.getElementById("playerCard");
 const tituloCancion = document.getElementById("songTitle");
 const imagenCaratula = document.getElementById("albumArt");
 const reproductorAudio = document.getElementById("audioPlayer");
 const iconoSlider = document.getElementById("sliderIcon");
+const progressFill = document.getElementById("progressFill"); // Nuevo: Relleno verde de la barra
 
 const btnPlay = document.getElementById("btnPlay");
-const playIcon = document.getElementById("playIcon"); // Imagen SVG interna del botón Play
+const playIcon = document.getElementById("playIcon");
 const btnPrev = document.getElementById("btnPrev");
 const btnNext = document.getElementById("cmdNext");
 
-// Nuevos elementos para el menú desplegable trasero
 const btnMenu = document.getElementById("btnMenu");
 const menuSlider = document.getElementById("menuSlider");
+const opcionesLista = document.querySelectorAll(".playlist-option");
 
-// Función para reproducir el efecto de sonido de interacción
 function reproducirEfectoBoton() {
-    sonidoBoton.currentTime = 0; // Reinicia el sonido por si se pulsa muy rápido
-    sonidoBoton.play().catch(error => console.log("Efecto de sonido bloqueado temporalmente por el navegador."));
+    sonidoBoton.currentTime = 0;
+    sonidoBoton.play().catch(() => {});
 }
 
-// Función para cambiar el contenido de la canción y la estética de la tarjeta
+// Resetea la barra de progreso visualmente a 0%
+function resetearBarraProgreso() {
+    if (progressFill) progressFill.style.width = "0%";
+    if (iconoSlider) iconoSlider.style.left = "0%";
+}
+
+// Carga la canción basada en la lista activa global
 function cargarCancion(index) {
-    const cancion = canciones[index];
+    const cancion = cancionesActivas[index];
     
     tituloCancion.textContent = cancion.titulo;
     imagenCaratula.src = cancion.imagen;
     reproductorAudio.src = cancion.archivo;
     tarjetaReproductor.className = "player-container " + cancion.temaCss;
     
-    // Cambia el icono del slider (hoja, cigarro...), los corazones se quedan fijos por CSS
     if (iconoSlider) iconoSlider.textContent = cancion.iconoSlider; 
+    
+    // Cada vez que cambia la canción, vaciamos la barra
+    resetearBarraProgreso();
 }
 
-// Control de Play / Pausa cambiando las imágenes SVG
 function controlarPlay() {
     reproducirEfectoBoton();
 
     if (estaReproduciendo) {
         reproductorAudio.pause();
-        if (playIcon) playIcon.src = "assets/play.svg"; // Cambia al SVG de Play
+        if (playIcon) playIcon.src = "assets/play.svg";
         estaReproduciendo = false;
     } else {
         reproductorAudio.play()
             .then(() => {
-                if (playIcon) playIcon.src = "assets/pause.svg"; // Cambia al SVG de Pausa
+                if (playIcon) playIcon.src = "assets/pause.svg";
                 estaReproduciendo = true;
             })
-            .catch(() => console.log("Interactúa con la página para poder reproducir audio."));
+            .catch(() => console.log("Interacción requerida para reproducir audio."));
     }
 }
 
-// Navegación: Canción Siguiente
 function siguienteCancion() {
     reproducirEfectoBoton();
-    
-    indiceActual = (indiceActual + 1) % canciones.length; 
+    indiceActual = (indiceActual + 1) % cancionesActivas.length; 
     cargarCancion(indiceActual);
-    
-    reproductorAudio.play()
-        .then(() => { 
-            if (playIcon) playIcon.src = "assets/pause.svg"; 
-            estaReproduciendo = true; 
-        })
-        .catch(() => {});
+    ejecutarAutoPlaySiProceda();
 }
 
-// Navegación: Canción Anterior
 function anteriorCancion() {
     reproducirEfectoBoton();
-    
-    indiceActual = (indiceActual - 1 + canciones.length) % canciones.length;
+    indiceActual = (indiceActual - 1 + cancionesActivas.length) % cancionesActivas.length;
     cargarCancion(indiceActual);
-    
-    reproductorAudio.play()
-        .then(() => { 
-            if (playIcon) playIcon.src = "assets/pause.svg"; 
-            estaReproduciendo = true; 
-        })
-        .catch(() => {});
+    ejecutarAutoPlaySiProceda();
 }
 
-// Eventos de los botones de la interfaz
+function ejecutarAutoPlaySiProceda() {
+    if (estaReproduciendo) {
+        reproductorAudio.play()
+            .then(() => { if (playIcon) playIcon.src = "assets/pause.svg"; })
+            .catch(() => {});
+    }
+}
+
+// Evento para actualizar la barra en un bucle infinito cada 30 segundos
+reproductorAudio.addEventListener("timeupdate", () => {
+    const tiempoActual = reproductorAudio.currentTime;
+    
+    /* El truco del bucle: Usamos el operador de módulo (%) para que al llegar 
+       a 30, el "tiempoReiniciado" vuelva a empezar desde 0 automáticamente.
+       (Ej: 31 segundos pasará a ser 1 segundo, 62 segundos serán 2, etc.)
+    */
+    const tiempoReiniciado = tiempoActual % tiempoObjetivo;
+    
+    // Calculamos el porcentaje en base a ese tiempo reiniciado
+    const porcentaje = (tiempoReiniciado / tiempoObjetivo) * 100;
+    
+    // Movemos el relleno verde y el emoji al mismo tiempo
+    if (progressFill) progressFill.style.width = `${porcentaje}%`;
+    if (iconoSlider) iconoSlider.style.left = `${porcentaje}%`;
+});
+
+// Controladores de eventos de navegación
 btnPlay.addEventListener("click", controlarPlay);
 btnNext.addEventListener("click", siguienteCancion);
 btnPrev.addEventListener("click", anteriorCancion);
 
-// Evento para abrir/cerrar el menú trasero al pulsar en el texto SVG
+// Despliegue del menú lateral
 if (btnMenu && menuSlider) {
     btnMenu.addEventListener("click", (e) => {
-        e.preventDefault(); // Evita el comportamiento de salto del enlace <a>
-        reproducirEfectoBoton(); // Mantiene tu feedback de audio
-        
-        // Añade o quita la clase que activa la animación CSS
+        e.preventDefault();
+        reproducirEfectoBoton();
         menuSlider.classList.toggle("active");
     });
 }
 
-// Inicializar el reproductor con la primera canción de la lista al cargar la página
+// Lógica de cambio dinámico de listas de reproducción
+opcionesLista.forEach(opcion => {
+    opcion.addEventListener("click", (e) => {
+        reproducirEfectoBoton();
+        
+        // Evita recargar si pulsamos la que ya está activa
+        if (opcion.classList.contains("active")) return;
+
+        // Cambiar la clase activa visual en el menú lateral
+        document.querySelector(".playlist-option.active").classList.remove("active");
+        opcion.classList.add("active");
+
+        // Cambiar el puntero del array de canciones según el atributo 'data-list'
+        const tipoLista = opcion.getAttribute("data-list");
+        if (tipoLista === "rave") {
+            cancionesActivas = listaRave;
+        } else {
+            cancionesActivas = listaPorrito;
+        }
+
+        // Resetear el reproductor al primer tema de la nueva lista cargada
+        indiceActual = 0;
+        cargarCancion(indiceActual);
+
+        // Si estaba sonando música, arranca automáticamente el nuevo tema de la lista
+        if (estaReproduciendo) {
+            reproductorAudio.play().catch(() => {});
+        }
+    });
+});
+
+// Inicialización de la app
 cargarCancion(indiceActual);
